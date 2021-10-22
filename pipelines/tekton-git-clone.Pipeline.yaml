@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-clone
+spec:
+  tasks:
+    - name: fetch-repository
+      params:
+        - name: url
+          value: https://github.com/cloud-native-garage-method-cohort/chuying-till-application
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: pipeline-shared-data
+    - name: test
+      runAfter:
+        - fetch-repository
+      taskRef:
+        name: pytest
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+  workspaces:
+    - name: pipeline-shared-data
