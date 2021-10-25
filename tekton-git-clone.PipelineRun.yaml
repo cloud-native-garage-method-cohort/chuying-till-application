@@ -3,6 +3,10 @@ kind: PipelineRun
 metadata:
   generateName: git-clone-
 spec:
+  serviceAccountName: build-bot
+  params:
+    - name: image-repo
+      value: quay.io/tillus/chuying-till-application
   pipelineRef:
     name: git-clone
   workspaces:

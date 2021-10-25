@@ -3,6 +3,10 @@ kind: Pipeline
 metadata:
   name: git-clone
 spec:
+  params:
+    - name: image-repo
+      type: string
+      description: Docker image repository
   tasks:
     - name: fetch-repository
       params:
@@ -19,6 +23,18 @@ spec:
         - fetch-repository
       taskRef:
         name: pytest
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+    - name: create-image
+      params:
+        - name: IMAGE
+          value: "$(params.image-repo):$(tasks.fetch-repository.results.commit)"
+      runAfter:
+        - test
+      taskRef:
+        name: buildah
+        kind: ClusterTask
       workspaces:
         - name: source
           workspace: pipeline-shared-data
