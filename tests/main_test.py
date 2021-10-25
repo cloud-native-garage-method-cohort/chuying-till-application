@@ -1,8 +1,5 @@
-import logging
 import sys
-logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
-logging.info(sys.path)
-
+print(f'{sys.path=}')
 import main
 from unittest import TestCase
 
