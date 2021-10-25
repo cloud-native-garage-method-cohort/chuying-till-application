@@ -1,5 +1,6 @@
 import sys
 print(f'{sys.path=}')
+sys.path.append('/workspace/source')
 import main
 from unittest import TestCase
 
